@@ -6,8 +6,9 @@ import os
 
 class Converter:
 
-    def __init__(self, unknown_data_path):
+    def __init__(self, unknown_data_path, output_file = None):
         self.unknown_data_path = unknown_data_path
+        self.output_file = output_file
 
     def determine_format(self):
         if os.path.isfile(self.unknown_data_path):
@@ -29,12 +30,12 @@ class Converter:
             conllu_parsed = conllu_parse.parser(self.unknown_data_path)
 
     def save_output(self):
-        input_dict = self.parse_input(self.unknown_data_path)
-        with open("output.json", 'w') as output_file:
-            json.dump(output_file, input_dict)
+        parsed_dict = self.parse_input(self.unknown_data_path)
+        with open(self.output_file, 'w') as out_file:
+            json.dump(out_file, parsed_dict)
 
 
 conllu_path = "/Users/teodoravukovic/Google Drive (not syncing)/PycharmProjects/VIAN-file-conversion/CONLLU/samples/conllu_test.conllu"
 
 if __name__ == "__main__":
-    Converter(conllu_path)
+    Converter(conllu_path, output_file="json_text.json")
